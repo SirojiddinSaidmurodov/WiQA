@@ -8,4 +8,5 @@ python -m venv .venv
 .venv/Scripts/activate
 pip install requirements.txt
 python -m deeppavlov install squad_bert
+python bot.py
 ```
