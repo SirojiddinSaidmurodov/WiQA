@@ -22,7 +22,7 @@ CONTEXT = {}
 RESULTS = {}
 
 
-def get_context(user_id):
+def get_context(user_id) -> str:
     try:
         return CONTEXT[user_id]
     except KeyError:
@@ -33,7 +33,8 @@ def get_context(user_id):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     bot.send_message(message.from_user.id,
-                     """Этот бот предназначен для демонстрации работы вопросно-ответной системы на основе модели BERT. Команды:
+                     """Этот бот предназначен для демонстрации работы вопросно-ответной системы на основе модели BERT.
+Команды:
 /c контекст - задать текст, в котором будет производиться поиск ответов на вопросы.
 /q вопрос - задать вопрос по тексту
 /wiki - искать статью в Википедии
@@ -52,7 +53,7 @@ def answer_question(message):
     if len(get_context(message.from_user.id)) > 0:
         question: str = message.text[1:]
         logging.debug(get_context(message.from_user.id))
-        answers = model([get_context(message.from_user.id)], [question])
+        answers = model(get_context(message.from_user.id).split(". "), [question])
         logging.info(answers)
         bot.send_message(message.from_user.id, answers)
     else:
