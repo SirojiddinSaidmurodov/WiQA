@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 bot = telebot.TeleBot(bot_token)
 model_config = read_json('config.json')
-model = build_model(model_config)
+model = build_model(model_config, download=True)
 
 CONTEXT = {}
 RESULTS = {}
@@ -97,9 +97,8 @@ def handle_message(message):
     bot.send_message(message.from_user.id, "Не понятное сообщение, нажмите /help что бы узнать как пользоваться ботом")
 
 
-while True:
-    try:
-        logging.info("Started")
-        bot.polling()
-    except Exception as e:
-        print(e)
+try:
+    logging.info("Started")
+    bot.polling()
+except Exception as e:
+    print(e)
