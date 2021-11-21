@@ -15,7 +15,7 @@ wiki.set_lang('ru')
 logging.basicConfig(level=logging.DEBUG)
 
 bot = telebot.TeleBot(bot_token)
-model_config = read_json('config.json')
+model_config = read_json('contextQConfig.json')
 model = build_model(model_config, download=True)
 
 CONTEXT = {}

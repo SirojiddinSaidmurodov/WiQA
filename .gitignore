@@ -80,7 +80,6 @@ __pycache__/
 build/
 develop-eggs/
 dist/
-files/
 eggs/
 .eggs/
 lib/
