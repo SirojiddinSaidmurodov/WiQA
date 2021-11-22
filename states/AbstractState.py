@@ -3,21 +3,19 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 
-import telebot.types
-
-import states
 from UserProperties import UserProperties
+from states.ArgsDto import ArgsDto
 
 
 class BotContext:
     _state = None
 
-    def __init__(self, message: telebot.types.Message):
-        user_id = message.from_user.id
+    def __init__(self, args: ArgsDto):
+        user_id = args.message.from_user.id
         self.properties, _ = UserProperties.get_or_create(id=user_id)
         logging.debug(self.properties)
         if self.properties.state == 'start':
-            self.set_state(StartState(message))
+            self.set_state(StartState(args=args))
 
     def set_state(self, state: State):
         self._state = state
@@ -31,8 +29,8 @@ class BotContext:
 
 class State(ABC):
 
-    def __init__(self, message: telebot.types.Message):
-        self.message = message
+    def __init__(self, args: ArgsDto):
+        self.args = args
         self._context = None
 
     @property
@@ -72,15 +70,15 @@ class State(ABC):
 class StartState(State):
 
     def exit(self):
-        self.context.set_state(StartState(message=self.message))
+        self.context.set_state(StartState(args=self.args))
         return "Состояние бота сброшено!"
 
     def run(self):
-        text: str = self.message.text
+        text: str = self.args.message.text
         logging.debug(text)
-        logging.debug(states.intent_catcher_model([text]))
+        logging.debug(self.args.intent_catcher([text]))
 
-        intent = states.intent_catcher_model([text])[0]
+        intent = self.args.intent_catcher([text])[0]
         if intent == 'greeting':
             return self.greeting()
         if intent == 'weather_forecast_intent':
@@ -100,16 +98,16 @@ class StartState(State):
         return "Привет!"
 
     def weather(self):
-        properties: UserProperties = UserProperties.get_by_id(self.message.from_user.id)
+        properties: UserProperties = UserProperties.get_by_id(self.args.message.from_user.id)
         if properties.lat is None:
-            self.context.set_state(GetLocationState(message=self.message))
+            self.context.set_state(GetLocationState(args=self.args))
             return "Отправьте свою геопозицию"
 
 
 class GetLocationState(State):
 
     def exit(self):
-        self.context.set_state(StartState(message=self.message))
+        self.context.set_state(StartState(args=self.args))
         return "Состояние бота сброшено!"
 
     @property
