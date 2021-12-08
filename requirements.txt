@@ -56,7 +56,6 @@ scipy==1.4.1
 six==1.16.0
 soupsieve==2.2.1
 starlette==0.12.9
-telebot
 tensorboard==1.15.0
 tensorflow==1.15.2
 tensorflow-estimator==1.15.1

@@ -6,7 +6,7 @@ Use python 3.7
 ```shell
 python -m venv .venv
 .venv/Scripts/activate
-pip install requirements.txt
+pip install -r requirements.txt
 python3 -m deeppavlov install squad_bert
 python3 -m deeppavlov install intent_catcher
 python3 train_intent_cathcher.py
