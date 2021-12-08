@@ -76,9 +76,9 @@ class StartState(State):
     def run(self):
         text: str = self.args.message.text
         logging.debug(text)
-        logging.debug(self.args.intent_catcher([text]))
+        logging.debug(self.args.intent_catcher(text))
 
-        intent = self.args.intent_catcher([text])[0]
+        intent = self.args.intent_catcher(text)
         if intent == 'greeting':
             return self.greeting()
         if intent == 'weather_forecast_intent':
