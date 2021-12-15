@@ -65,12 +65,12 @@
   },
   "train": {
     "epochs": 400,
-    "batch_size": 100,
+    "batch_size": 50,
     "metrics": [
       "accuracy",
       "f1_macro"
     ],
-    "validation_patience": 10,
+    "validation_patience": 3,
     "val_every_n_epochs": 50,
     "log_every_n_epochs": 5,
     "show_examples": false,
