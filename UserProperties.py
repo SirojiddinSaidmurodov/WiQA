@@ -7,8 +7,8 @@ class UserProperties(Model):
     id = TextField(column_name='id', primary_key=True)
     state = TextField(column_name='state', default='start')
     context = TextField(column_name='context', null=True)
-    long = FloatField(column_name='long', null=True)
-    lat = FloatField(column_name='lat', null=True)
+    long = DoubleField(column_name='long', null=True)
+    lat = DoubleField(column_name='lat', null=True)
 
     class Meta:
         database = db
