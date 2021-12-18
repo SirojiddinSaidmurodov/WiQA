@@ -12,7 +12,7 @@ class SetLocationState(AbstractState):
 
     def run(self):
         if self.message.content_type != "location":
-            return "Please, send me your location in order to get weather forecast"
+            super().run()
         else:
             properties: UserProperties = UserProperties.get_by_id(self.message.from_user.id)
             logging.debug(self.message.location)

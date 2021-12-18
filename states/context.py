@@ -14,10 +14,16 @@ class Bot:
         user_id = message.from_user.id
         self.properties, _ = UserProperties.get_or_create(id=user_id)
         logging.debug(self.properties)
-        if self.properties.state == 'start':
+        if self.properties.state == StartState.name:
             self.set_state(StartState(message, intent))
-        elif self.properties.state == 'setLocation':
+        elif self.properties.state == SetLocationState.name:
             self.set_state(SetLocationState(message, intent))
+        elif self.properties.state == QueryState.name:
+            self.set_state(QueryState(message, intent))
+        elif self.properties.state == ContextState.name:
+            self.set_state(ContextState(message, intent))
+        elif self.properties.state == QAState.name:
+            self.set_state(QAState(message, intent))
 
     def set_state(self, state: AbstractState):
         self._state = state
@@ -33,3 +39,6 @@ class Bot:
 from .AbstractState import AbstractState
 from .StartState import StartState
 from .SetLocationState import SetLocationState
+from .QueryState import QueryState
+from .ContextState import ContextState
+from .QuestionAnsweringState import QAState

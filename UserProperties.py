@@ -9,6 +9,7 @@ class UserProperties(Model):
     context = TextField(column_name='context', null=True)
     long = DoubleField(column_name='long', null=True)
     lat = DoubleField(column_name='lat', null=True)
+    searchResults = TextField(column_name='results', null=True)
 
     class Meta:
         database = db

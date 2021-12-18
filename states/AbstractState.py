@@ -45,7 +45,7 @@ class AbstractState(ABC):
 
     @abstractmethod
     def action_weather(self):
-        return "abstract"
+        pass
 
     @abstractmethod
     def action_set_context(self):

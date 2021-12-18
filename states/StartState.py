@@ -13,14 +13,15 @@ manager = owm.weather_manager()
 class StartState(AbstractState):
 
     def action_set_context(self):
-        pass
+        self.context.set_state(QueryState(self.message, self.intent))
+        return "Give me a subject to search"
 
     @property
     def name(self):
         return 'start'
 
     def action_exit(self):
-        return "Bot state is reset"
+        return "Bot state has been reset already"
 
     def action_weather(self):
         properties: UserProperties = UserProperties.get_by_id(self.message.from_user.id)
@@ -38,3 +39,4 @@ class StartState(AbstractState):
 
 from UserProperties import UserProperties
 from states.SetLocationState import SetLocationState
+from states.QueryState import QueryState

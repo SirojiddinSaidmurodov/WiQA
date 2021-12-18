@@ -3,7 +3,7 @@ aio-pika==6.4.1
 aiormq==3.3.1
 astor==0.8.1
 beautifulsoup4==4.10.0
-bert-dp @ git+https://github.com/deepmipt/bert.git@741d9bed9d52c6a9409ca27d8bf284615645618b
+bert-dp==1.0
 certifi==2021.5.30
 cffi==1.14.6
 chardet==3.0.4
@@ -11,11 +11,12 @@ click==7.1.2
 cryptography==3.4.8
 Cython==0.29.14
 DAWG-Python==0.7.2
-deeppavlov
+deeppavlov==0.14.0
 docopt==0.6.2
 fastapi==0.47.1
 filelock==3.0.12
 gast==0.2.2
+geojson==2.5.0
 google-pasta==0.2.0
 grpcio==1.40.0
 h11==0.9.0
@@ -34,7 +35,8 @@ opt-einsum==3.3.0
 overrides==2.7.0
 pamqp==2.3.0
 pandas==0.25.3
-peewee
+peewee==3.14.8
+plumbum==1.7.1
 prometheus-client==0.7.1
 protobuf==3.18.0
 pycparser==2.20
@@ -43,11 +45,14 @@ pymorphy2==0.8
 pymorphy2-dicts==2.4.393442.3710985
 pymorphy2-dicts-ru==2.4.417127.4579844
 pyOpenSSL==19.1.0
+pyowm==3.2.0
+PySocks==1.7.1
 pyTelegramBotAPI==3.6.7
 python-dateutil==2.8.2
-python-dotenv
+python-dotenv==0.19.2
 pytz==2019.1
 requests==2.22.0
+rpyc==5.0.1
 ruamel.yaml==0.15.100
 rusenttokenize==0.0.5
 sacremoses==0.0.35
