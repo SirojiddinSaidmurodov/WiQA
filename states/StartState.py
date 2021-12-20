@@ -2,6 +2,9 @@ import os
 
 import dotenv
 from pyowm.owm import OWM
+from pyowm.weatherapi25.location import Location
+from pyowm.weatherapi25.observation import Observation
+from pyowm.weatherapi25.weather import Weather
 
 from states.AbstractState import AbstractState
 
@@ -18,7 +21,7 @@ class StartState(AbstractState):
 
     @property
     def name(self):
-        return 'start'
+        return "start"
 
     def action_exit(self):
         return "Bot state has been reset already"
@@ -29,11 +32,25 @@ class StartState(AbstractState):
             self.context.set_state(SetLocationState(self.message, self.intent))
             return "Please, send your location in order to get weather forecast"
         else:
-            w = manager.weather_at_coords(lat=properties.lat, lon=properties.long)
-            output = {"clouds": w.weather.clouds, "rain": w.weather.rain, "snow": w.weather.snow, "wind": w.weather.wnd,
-                      "humidity": w.weather.humidity, "pressure": w.weather.pressure,
-                      "temperature": w.weather.temperature("celsius"), "status": w.weather.detailed_status,
-                      "sunrise": w.weather.sunrise_time('date'), "sunset": w.weather.sunset_time('date')}
+            w: Observation = manager.weather_at_coords(lat=properties.lat, lon=properties.long)
+            latlon_res: Location = w.location
+            city = latlon_res.name
+            lat = properties.lat
+            lon = properties.long
+            weather: Weather = w.weather
+            wind_res = weather.wnd
+            wind_speed = str(wind_res.get('speed'))
+
+            humidity = str(weather.humidity.real)
+
+            celsius_result = weather.temperature('celsius')
+            temp_min_celsius = str(celsius_result.get('temp_min'))
+            temp_max_celsius = str(celsius_result.get('temp_max'))
+            output = "Today the weather in " + str(city) \
+                     + ": \n" + "🌡Temperature:\n        Max temp :" + str(temp_max_celsius) \
+                     + "℃\n        Min Temp :" + str(temp_min_celsius) + "℃\n💧Humidity :" + str(humidity) \
+                     + "%\n💨Wind Speed :" + str(wind_speed) \
+                     + "\nLocation:\n       Latitude :" + str(lat) + "\n       Longitude :" + str(lon)
             return str(output)
 
 
