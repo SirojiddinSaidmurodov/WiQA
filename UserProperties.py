@@ -11,6 +11,9 @@ class UserProperties(Model):
     lat = DoubleField(column_name='lat', null=True)
     searchResults = TextField(column_name='results', null=True)
 
+    def __str__(self):
+        return "id = " + self.id + "state = " + self.state
+
     class Meta:
         database = db
 

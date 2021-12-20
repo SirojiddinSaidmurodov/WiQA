@@ -4,7 +4,6 @@ import os
 import dotenv
 import rpyc as rpyc
 import telebot
-from deeppavlov import build_model
 
 from states.context import Bot
 
@@ -13,16 +12,16 @@ bot_token = os.environ.get("bot_token")
 
 logging.basicConfig(level=logging.DEBUG)
 
-bot = telebot.TeleBot(bot_token)
+intent_catcher: rpyc.Connection = rpyc.connect("localhost", 18861)
+intent_catcher._config['sync_request_timeout'] = None
 
-context_qa_model = build_model('contextQAConfig.json')
-intent_catcher = rpyc.connect("localhost", 18861)
+bot = telebot.TeleBot(bot_token)
 
 
 @bot.message_handler(content_types=['location', 'text'])
 def handle_message(message: telebot.types.Message):
     logging.debug("message handler activated")
-    if message.content_type != "location":
+    if message.content_type == 'text':
         logging.debug("text received: " + message.text)
         intent: str = intent_catcher.root.get_intent(message.text)
         logging.debug("Intent: " + intent)

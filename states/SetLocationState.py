@@ -1,8 +1,6 @@
 import logging
 
-from UserProperties import UserProperties
 from states.AbstractState import AbstractState
-from states.StartState import StartState
 
 
 class SetLocationState(AbstractState):
@@ -38,3 +36,7 @@ class SetLocationState(AbstractState):
     def action_exit(self):
         self.context.set_state(StartState(self.message, self.intent))
         return "State is reset"
+
+
+from states.StartState import StartState
+from UserProperties import UserProperties

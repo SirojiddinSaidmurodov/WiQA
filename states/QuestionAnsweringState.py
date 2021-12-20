@@ -1,7 +1,6 @@
-from UserProperties import UserProperties
-from run import context_qa_model
+from deeppavlov import build_model
+
 from states.AbstractState import AbstractState
-from states.StartState import StartState
 
 
 class QAState(AbstractState):
@@ -10,7 +9,8 @@ class QAState(AbstractState):
         if self.intent == "exit":
             self.action_exit()
         user: UserProperties = UserProperties.get_by_id(self.message.from_user.id)
-        return context_qa_model(user.context, [self.message.text])
+        context_qa_model = build_model('contextQAConfig.json')
+        return context_qa_model(str(user.context).split("."), [self.message.text])
 
     @property
     def name(self) -> str:
@@ -25,3 +25,7 @@ class QAState(AbstractState):
     def action_exit(self):
         self.context.set_state(StartState(self.message, self.intent))
         return "State reset"
+
+
+from states.StartState import StartState
+from UserProperties import UserProperties

@@ -1,21 +1,21 @@
 import json
+import logging
 
 import wikipedia as wiki
 
-from UserProperties import UserProperties
 from states.AbstractState import AbstractState
-from states.QuestionAnsweringState import QAState
-from states.StartState import StartState
 
 
 class ContextState(AbstractState):
 
     def run(self):
+        logging.debug("context state is running")
         message: str = self.message.text[1:2]
         if message.isnumeric():
             user: UserProperties = UserProperties.get_by_id(self.message.from_user.id)
             results: dict = json.loads(user.searchResults)
-            user.context = str(wiki.page(results.get(int(message))))
+            logging.debug(results)
+            user.context = wiki.page(results.get(message)).content
             user.save()
             self.context.set_state(QAState(self.message, self.intent))
             return "Context set"
@@ -37,3 +37,8 @@ class ContextState(AbstractState):
     def action_exit(self):
         self.context.set_state(StartState(self.message, self.intent))
         return "State is reset"
+
+
+from states.QuestionAnsweringState import QAState
+from states.StartState import StartState
+from UserProperties import UserProperties
