@@ -10,7 +10,7 @@ class QAState(AbstractState):
             self.action_exit()
         user: UserProperties = UserProperties.get_by_id(self.message.from_user.id)
         context_qa_model = build_model('contextQAConfig.json')
-        return context_qa_model(str(user.context).split("."), [self.message.text])
+        return context_qa_model(str(user.context), [self.message.text])
 
     @property
     def name(self) -> str:
